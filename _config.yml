@@ -1,0 +1,7 @@
+# _config.yml
+title: SolanaGiver
+description: Official Solana Airdrop Distribution
+theme: minima
+plugins:
+  - jekyll-feed
+show_downloads: true
